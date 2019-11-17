@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yangrui.whale.generate.dao.GenerateMapper" >
+
+  <select id="getColumns" parameterType="String"
+    resultType="com.yangrui.whale.generate.data.ColumnInfo">
+    SELECT
+      column_name AS columnName,
+      is_nullable AS isNullable,
+      data_type AS columnType,
+      column_comment AS columnComment,
+      column_key AS columnKey,
+      extra
+    FROM
+      information_schema. COLUMNS
+    WHERE
+      table_name = 'book'
+    AND table_schema = (SELECT DATABASE())
+    ORDER BY
+      ordinal_position
+  </select>
+
+
+
+</mapper>

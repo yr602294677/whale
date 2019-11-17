@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.2.1.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.yangrui.whale</groupId>
+	<artifactId>whale</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>whale</name>
+	<description>whale</description>
+
+	<properties>
+		<java.version>1.8</java.version>
+	</properties>
+	<resource>
+		<directory>src/main/resources</directory>
+		<filtering>false</filtering>
+		<excludes>
+			<exclude>**/application*.properties</exclude>
+			<exclude>dev-conf/*.properties</exclude>
+			<exclude>test-conf/*.properties</exclude>
+			<exclude>prod-conf/*.properties</exclude>
+		</excludes>
+	</resource>
+	<dependencies>
+		<!-- https://mvnrepository.com/artifact/org.freemarker/freemarker -->
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+			<version>2.3.28</version>
+		</dependency>
+
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis.spring.boot</groupId>
+			<artifactId>mybatis-spring-boot-starter</artifactId>
+			<version>2.1.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.attoparser/attoparser -->
+		<dependency>
+			<groupId>org.attoparser</groupId>
+			<artifactId>attoparser</artifactId>
+			<version>2.0.5.RELEASE</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.unbescape/unbescape -->
+		<dependency>
+			<groupId>org.unbescape</groupId>
+			<artifactId>unbescape</artifactId>
+			<version>1.1.6.RELEASE</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/cn.hutool/hutool-all -->
+		<dependency>
+			<groupId>cn.hutool</groupId>
+			<artifactId>hutool-all</artifactId>
+			<version>5.0.5</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/ognl/ognl -->
+		<dependency>
+			<groupId>ognl</groupId>
+			<artifactId>ognl</artifactId>
+			<version>3.2.11</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>javax.persistence-api</artifactId>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.16.18</version>
+			<scope>provided</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/cn.hutool/hutool-core -->
+		<dependency>
+			<groupId>cn.hutool</groupId>
+			<artifactId>hutool-core</artifactId>
+			<version>5.0.5</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/commons-configuration/commons-configuration -->
+		<dependency>
+			<groupId>commons-configuration</groupId>
+			<artifactId>commons-configuration</artifactId>
+			<version>1.10</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.59</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-commons</artifactId>
+			<version>2.1.10.RELEASE</version>
+			<scope>compile</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
