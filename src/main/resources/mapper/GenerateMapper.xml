@@ -14,7 +14,7 @@
     FROM
       information_schema. COLUMNS
     WHERE
-      table_name = 'book'
+      table_name = #{table}
     AND table_schema = (SELECT DATABASE())
     ORDER BY
       ordinal_position

@@ -44,6 +44,10 @@ public class GenUtil {
     private static List<String> getAdminTemplateNames() {
         List<String> templateNames = new ArrayList<>();
         templateNames.add("Controller");
+        templateNames.add("Data");
+        templateNames.add("Mapper");
+        templateNames.add("Service");
+        templateNames.add("ServiceImpl");
         return templateNames;
     }
 
@@ -71,9 +75,10 @@ public class GenUtil {
         map.put("author",genConfig.getAuthor());
         map.put("date", LocalDate.now().toString());
         map.put("tableName",tableName);
+        map.put("chineseDesc","罐检信息");
         String className = StringUtils.toCapitalizeCamelCase(tableName);
         String changeClassName = StringUtils.toCamelCase(tableName);
-
+        System.out.println(genConfig.getPrefix());
         // 判断是否去除表前缀
         if (StringUtils.isNotEmpty(genConfig.getPrefix())) {
             className = StringUtils.toCapitalizeCamelCase(StrUtil.removePrefix(tableName,genConfig.getPrefix()));
@@ -183,12 +188,12 @@ public class GenUtil {
             packagePath += genConfig.getPack().replace(".", File.separator) + File.separator;
         }
 
-        if ("Entity".equals(templateName)) {
+       /* if ("Entity".equals(templateName)) {
             return packagePath + "domain" + File.separator + className + ".java";
-        }
+        }*/
 
         if ("Controller".equals(templateName)) {
-            return packagePath + "rest" + File.separator + className + "Controller.java";
+            return packagePath + "controller" + File.separator + className + "Controller.java";
         }
 
         if ("Service".equals(templateName)) {
@@ -199,21 +204,21 @@ public class GenUtil {
             return packagePath + "service" + File.separator + "impl" + File.separator + className + "ServiceImpl.java";
         }
 
-        if ("Dto".equals(templateName)) {
-            return packagePath + "service" + File.separator + "dto" + File.separator + className + "DTO.java";
+        if ("Data".equals(templateName)) {
+            return packagePath + "data" + File.separator + className + "Data.java";
         }
 
-        if ("QueryCriteria".equals(templateName)) {
+       /* if ("QueryCriteria".equals(templateName)) {
             return packagePath + "service" + File.separator + "dto" + File.separator + className + "QueryCriteria.java";
-        }
+        }*/
 
         if ("Mapper".equals(templateName)) {
-            return packagePath + "service" + File.separator + "mapper" + File.separator + className + "Mapper.java";
+            return packagePath +  "dao" + File.separator + className + "Mapper.java";
         }
 
-        if ("Repository".equals(templateName)) {
+       /* if ("Repository".equals(templateName)) {
             return packagePath + "repository" + File.separator + className + "Repository.java";
-        }
+        }*/
 
         return null;
     }

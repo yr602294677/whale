@@ -1,155 +1,68 @@
 package ${package}.service.impl;
 
-import ${package}.domain.${className};
-<#if columns??>
-    <#list columns as column>
-        <#if column.columnKey = 'UNI'>
-            <#if column_index = 1>
-import me.zhengjie.exception.EntityExistException;
-            </#if>
-        </#if>
-    </#list>
-</#if>
-import me.zhengjie.utils.ValidationUtil;
-import me.zhengjie.utils.FileUtil;
-import ${package}.repository.${className}Repository;
-import ${package}.service.${className}Service;
-import ${package}.service.dto.${className}DTO;
-import ${package}.service.dto.${className}QueryCriteria;
-import ${package}.service.mapper.${className}Mapper;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
-<#if !auto && pkColumnType = 'Long'>
-import cn.hutool.core.lang.Snowflake;
-import cn.hutool.core.util.IdUtil;
-</#if>
-<#if !auto && pkColumnType = 'String'>
-import cn.hutool.core.util.IdUtil;
-</#if>
-import org.springframework.cache.annotation.CacheConfig;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import me.zhengjie.utils.PageUtil;
-import me.zhengjie.utils.QueryHelp;
 import java.util.List;
 import java.util.Map;
-import java.io.IOException;
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import ${package}.dao.${className}Mapper;
+import ${package}.data.${className}Data;
+import ${package}.service.${className}Service;
 
 /**
+* ${chineseDesc}
 * @author ${author}
 * @date ${date}
 */
-@Service
-@CacheConfig(cacheNames = "${changeClassName}")
-@Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
+@Service("${changeClassName}Service")
 public class ${className}ServiceImpl implements ${className}Service {
 
-    private final ${className}Repository ${changeClassName}Repository;
+@Autowired
+private ${className}Mapper ${changeClassName}Mapper;
 
-    private final ${className}Mapper ${changeClassName}Mapper;
-
-    public ${className}ServiceImpl(${className}Repository ${changeClassName}Repository, ${className}Mapper ${changeClassName}Mapper) {
-        this.${changeClassName}Repository = ${changeClassName}Repository;
-        this.${changeClassName}Mapper = ${changeClassName}Mapper;
-    }
-
-    @Override
-    @Cacheable
-    public Map<String,Object> queryAll(${className}QueryCriteria criteria, Pageable pageable){
-        Page<${className}> page = ${changeClassName}Repository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
-        return PageUtil.toPage(page.map(${changeClassName}Mapper::toDto));
-    }
-
-    @Override
-    @Cacheable
-    public List<${className}DTO> queryAll(${className}QueryCriteria criteria){
-        return ${changeClassName}Mapper.toDto(${changeClassName}Repository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
-    }
-
-    @Override
-    @Cacheable(key = "#p0")
-    public ${className}DTO findById(${pkColumnType} ${pkChangeColName}) {
-        ${className} ${changeClassName} = ${changeClassName}Repository.findById(${pkChangeColName}).orElseGet(${className}::new);
-        ValidationUtil.isNull(${changeClassName}.get${pkCapitalColName}(),"${className}","${pkChangeColName}",${pkChangeColName});
-        return ${changeClassName}Mapper.toDto(${changeClassName});
-    }
-
-    @Override
-    @CacheEvict(allEntries = true)
-    @Transactional(rollbackFor = Exception.class)
-    public ${className}DTO create(${className} resources) {
-<#if !auto && pkColumnType = 'Long'>
-        Snowflake snowflake = IdUtil.createSnowflake(1, 1);
-        resources.set${pkCapitalColName}(snowflake.nextId()); 
-</#if>
-<#if !auto && pkColumnType = 'String'>
-        resources.set${pkCapitalColName}(IdUtil.simpleUUID()); 
-</#if>
-<#if columns??>
-    <#list columns as column>
-    <#if column.columnKey = 'UNI'>
-        if(${changeClassName}Repository.findBy${column.capitalColumnName}(resources.get${column.capitalColumnName}()) != null){
-            throw new EntityExistException(${className}.class,"${column.columnName}",resources.get${column.capitalColumnName}());
+public List<${className}Data> query${className}(Map<String, String> parameters) {
+    List<${className}Data> ${changeClassName}List = ${changeClassName}Mapper.query${className}(parameters);
+        return ${changeClassName}List;
         }
-    </#if>
-    </#list>
-</#if>
-        return ${changeClassName}Mapper.toDto(${changeClassName}Repository.save(resources));
-    }
 
-    @Override
-    @CacheEvict(allEntries = true)
-    @Transactional(rollbackFor = Exception.class)
-    public void update(${className} resources) {
-        ${className} ${changeClassName} = ${changeClassName}Repository.findById(resources.get${pkCapitalColName}()).orElseGet(${className}::new);
-        ValidationUtil.isNull( ${changeClassName}.get${pkCapitalColName}(),"${className}","id",resources.get${pkCapitalColName}());
-<#if columns??>
-    <#list columns as column>
-        <#if column.columnKey = 'UNI'>
-        <#if column_index = 1>
-        ${className} ${changeClassName}1 = null;
-        </#if>
-        ${changeClassName}1 = ${changeClassName}Repository.findBy${column.capitalColumnName}(resources.get${column.capitalColumnName}());
-        if(${changeClassName}1 != null && !${changeClassName}1.get${pkCapitalColName}().equals(${changeClassName}.get${pkCapitalColName}())){
-            throw new EntityExistException(${className}.class,"${column.columnName}",resources.get${column.capitalColumnName}());
+        public void save${className}(${className}Data data) {
+        ${changeClassName}Mapper.save${className}(data);
+
         }
-        </#if>
-    </#list>
-</#if>
-        ${changeClassName}.copy(resources);
-        ${changeClassName}Repository.save(${changeClassName});
-    }
 
-    @Override
-    @CacheEvict(allEntries = true)
-    @Transactional(rollbackFor = Exception.class)
-    public void delete(${pkColumnType} ${pkChangeColName}) {
-        ${changeClassName}Repository.deleteById(${pkChangeColName});
-    }
-
-
-    @Override
-    public void download(List<${className}DTO> all, HttpServletResponse response) throws IOException {
-        List<Map<String, Object>> list = new ArrayList<>();
-        for (${className}DTO ${changeClassName} : all) {
-            Map<String,Object> map = new LinkedHashMap<>();
-        <#list columns as column>
-            <#if column.columnKey != 'PRI'>
-            <#if column.columnComment != ''>
-            map.put("${column.columnComment}", ${changeClassName}.get${column.capitalColumnName}());
-            <#else>
-            map.put(" ${column.changeColumnName}",  ${changeClassName}.get${column.capitalColumnName}());
-            </#if>
-            </#if>
-        </#list>
-            list.add(map);
+        public ${className}Data get${className}ById(Map<String, String> map) {
+        ${className}Data ${changeClassName} = ${changeClassName}Mapper.get${className}ById(map);
+        return ${changeClassName};
         }
-        FileUtil.downloadExcel(list, response);
-    }
-}
+
+        public void delete${className}(String[] arrStrings) {
+        ${changeClassName}Mapper.delete${className}(arrStrings);
+
+        }
+
+        public List<${className}Data> queryPart${className}(Map<String, String> parameters) {
+            List<${className}Data> ${changeClassName}List = ${changeClassName}Mapper.queryPart${className}(parameters);
+                return ${changeClassName}List;
+                }
+
+                public void update${className}(${className}Data data) {
+                ${changeClassName}Mapper.update${className}(data);
+
+                }
+
+                @Override
+                public List<${className}Data> checkQyzt(String[] arrStrings) {
+                    return ${changeClassName}Mapper.checkQyzt(arrStrings);
+                    }
+
+                    public ${className}Data get${className}mc(Map<String, Object> map) {
+                    ${className}Data ${changeClassName} = ${changeClassName}Mapper.get${className}mc(map);
+                    return ${changeClassName};
+                    }
+
+
+                    @Override
+                    public void edit${className}Zt(Map<String, String> map) {
+                    ${changeClassName}Mapper.edit${className}Zt(map);
+                    }
+
+                    }

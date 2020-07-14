@@ -60,6 +60,9 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
         return s.substring(0, 1).toUpperCase() + s.substring(1);
     }
 
+    public static void main(String[] args) {
+        System.out.println(toCapitalizeCamelCase("_gjpc"));
+    }
     /**
      * 驼峰命名法工具
      *

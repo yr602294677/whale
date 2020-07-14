@@ -1,47 +1,32 @@
 package ${package}.service;
 
-import ${package}.domain.${className};
-import ${package}.service.dto.${className}DTO;
-import ${package}.service.dto.${className}QueryCriteria;
-import org.springframework.data.domain.Pageable;
-import java.util.Map;
 import java.util.List;
-import java.io.IOException;
-import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
+import ${package}.data.${className}Data;
 
 /**
+* ${chineseDesc}
 * @author ${author}
 * @date ${date}
 */
 public interface ${className}Service {
 
-    /**
-    * 查询数据分页
-    * @param criteria 条件参数
-    * @param pageable 分页参数
-    * @return Map<String,Object>
-    */
-    Map<String,Object> queryAll(${className}QueryCriteria criteria, Pageable pageable);
+List<${className}Data> query${className}(Map<String, String> parameters);
 
-    /**
-    * 查询所有数据不分页
-    * @param criteria 条件参数
-    * @return List<${className}DTO>
-    */
-    List<${className}DTO> queryAll(${className}QueryCriteria criteria);
+    void save${className}(${className}Data data);
 
-    /**
-     * 根据ID查询
-     * @param ${pkChangeColName} ID
-     * @return ${className}DTO
-     */
-    ${className}DTO findById(${pkColumnType} ${pkChangeColName});
+    ${className}Data get${className}ById(Map<String, String> map);
 
-    ${className}DTO create(${className} resources);
+    void delete${className}(String[] arrStrings);
 
-    void update(${className} resources);
+    List<${className}Data> queryPart${className}(Map<String, String> parameters);
 
-    void delete(${pkColumnType} ${pkChangeColName});
+    void update${className}(${className}Data data);
 
-    void download(List<${className}DTO> all, HttpServletResponse response) throws IOException;
-}
+    List<${className}Data> checkQyzt(String[] arrStrings);
+
+    ${className}Data get${className}mc(Map<String, Object> map);
+
+    void edit${className}Zt(Map<String, String> map);
+
+    }

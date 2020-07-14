@@ -18,21 +18,22 @@ public class GenerateController {
   GenerateService generateService;
 
   @RequestMapping("/generate")
-  public void generate(){
-    String table="book";
+  public String generate(){
+    String table="zlzs_gjpc";
     List<ColumnInfo> list =getAllColumns(table);
     GenConfig genConfig =new GenConfig();
     genConfig.setId(000001l);
-    genConfig.setPack("com.yr.gen");
-    genConfig.setModuleName("gen");
-
+    genConfig.setPack("com.genersoft.lszlzs.zjgl.yygj");
+    genConfig.setModuleName("lszlzs");
+    genConfig.setPrefix("zlzs_");
     genConfig.setPath("E:\\workspace\\me\\front\\eladmin-qt\\src\\views\\test1111");
     genConfig.setAuthor("yangrui");
     try {
-      GenUtil.generator(list,genConfig,"book");
+      GenUtil.generator(list,genConfig,table);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+    return "代码生成成功！";
   }
 
   private List<ColumnInfo> getAllColumns(String table) {
